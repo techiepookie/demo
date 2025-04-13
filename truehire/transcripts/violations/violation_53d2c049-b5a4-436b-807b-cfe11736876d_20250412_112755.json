@@ -1,0 +1,19 @@
+{
+  "session_id": "53d2c049-b5a4-436b-807b-cfe11736876d",
+  "timestamp": "2025-04-12T11:27:55.003593",
+  "reason": "Multiple fullscreen exit violations detected",
+  "proctoring_log": [
+    {
+      "timestamp": 1744437472131,
+      "message": "Fullscreen mode exited"
+    },
+    {
+      "timestamp": 1744437473092,
+      "message": "Fullscreen mode exited"
+    },
+    {
+      "timestamp": 1744437474998,
+      "message": "Fullscreen mode exited"
+    }
+  ]
+}

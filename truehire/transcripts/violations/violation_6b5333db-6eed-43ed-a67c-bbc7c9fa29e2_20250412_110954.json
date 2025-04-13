@@ -1,0 +1,19 @@
+{
+  "session_id": "6b5333db-6eed-43ed-a67c-bbc7c9fa29e2",
+  "timestamp": "2025-04-12T11:09:54.529023",
+  "reason": "Proctoring violations exceeded",
+  "proctoring_log": [
+    {
+      "timestamp": 1744436393087,
+      "message": "Tab switching detected"
+    },
+    {
+      "timestamp": 1744436393519,
+      "message": "Tab visibility violation"
+    },
+    {
+      "timestamp": 1744436394525,
+      "message": "Tab visibility violation"
+    }
+  ]
+}

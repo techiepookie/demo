@@ -1,0 +1,161 @@
+/* Assessment Timer Styles */
+.timer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 15px auto;
+    max-width: 300px;
+    border: 1px solid #e9ecef;
+}
+
+.timer-icon {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #495057;
+}
+
+.timer-display {
+    font-size: 24px;
+    font-weight: bold;
+    color: #343a40;
+    font-family: monospace;
+    margin: 0 10px;
+}
+
+.timer-label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-left: 10px;
+}
+
+.timer-warning {
+    color: #dc3545 !important;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Assessment container styles */
+.question-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.question-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.option {
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.option:hover {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+}
+
+.option.selected {
+    background-color: #e9f7fe;
+    border-color: #4dabf7;
+}
+
+.option input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Navigation buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5c636a;
+}
+
+.btn-primary:disabled, .btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Progress indicators */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.progress-indicator {
+    height: 100%;
+    background-color: #0d6efd;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 14px;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 5px;
+}

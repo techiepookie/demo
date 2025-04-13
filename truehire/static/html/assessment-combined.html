@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueHire - Assessment Platform</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/assessment-timer.css">
+    <link rel="stylesheet" href="/static/results-styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f7;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e5e5e5;
+            background-color: #fff;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 36px;
+            margin-right: 20px;
+        }
+
+        .platform-name {
+            color: #666;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            background-color: #f2f2f2;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .timer-icon {
+            margin-right: 10px;
+            color: #ff6b6b;
+        }
+
+        .timer {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .timer.warning {
+            color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .progress-container {
+            padding: 20px 40px;
+        }
+
+        .step-text {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            padding: 20px 40px 40px;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .video-feed-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .container-header {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .container-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .status-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            font-size: 14px;
+        }
+
+        .status-indicator.active {
+            border-color: #a5d6a7;
+            background-color: #e8f5e9;
+        }
+
+        .status-indicator.inactive {
+            border-color: #ffccbc;
+            background-color: #fbe9e7;
+        }
+
+        .permission-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .permission-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .video-content {
+            position: relative;
+            width: 100%;
+            height: 225px;
+            background-color: #000;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #2a2a2a;
+            color: #fff;
+        }
+
+        .video-placeholder svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+            stroke: #ff6b6b;
+        }
+
+        /* Proctoring warning dialog styles */
+        .warning-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .warning-dialog {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            text-align: center;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .warning-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .warning-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .warning-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .warning-button:hover {
+            background-color: #d32f2f;
+        }
+        
+        /* Termination overlay styles */
+        .termination-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .termination-dialog {
+            background-color: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .termination-header {
+            font-size: 28px;
+            font-weight: bold;
+            color: #f44336;
+            margin-bottom: 15px;
+        }
+        
+        .termination-reason {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #ffebee;
+            border-radius: 5px;
+        }
+        
+        .termination-message {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .termination-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .termination-button:hover {
+            background-color: #555;
+        }
+        
+        /* Results styles */
+        .results-container {
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .score-display {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .score-display.passed {
+            background-color: #4caf50;
+        }
+        
+        .score-display.failed {
+            background-color: #f44336;
+        }
+        
+        .score-value {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        
+        .score-label {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        
+        .score-details {
+            margin: 30px 0;
+            line-height: 1.6;
+        }
+        
+        .results-actions {
+            margin-top: 40px;
+        }
+        
+        .results-actions button {
+            margin: 0 10px;
+        }
+
+        .main-content {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .permissions-title, .question-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .permissions-description {
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .permissions-note {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #ff6b6b;
+            margin-bottom: 30px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            background-color: #f9f9f9;
+        }
+
+        .option input[type="radio"] {
+            margin-top: 3px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff5252;
+        }
+
+        .btn-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f5f5f5;
+        }
+
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 107, 107, 0.3);
+            border-radius: 50%;
+            border-top-color: #ff6b6b;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 30px;
+            color: #d32f2f;
+        }
+
+        .assessment-results {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .assessment-results h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .assessment-results .pass {
+            color: #2e7d32;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .assessment-results .fail {
+            color: #d32f2f;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .answer-content-container {
+            flex: 1;
+            padding: 15px;
+        }
+        
+        /* Results Section Styles */
+        .results-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 30px 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .results-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .score-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 30px;
+        }
+        
+        .score-circle {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 5px solid #4aca8c;
+            transition: all 0.3s ease;
+        }
+        
+        .score-circle.pass {
+            border-color: #4aca8c;
+            background-color: rgba(74, 202, 140, 0.1);
+        }
+        
+        .score-circle.fail {
+            border-color: #ff5252;
+            background-color: rgba(255, 82, 82, 0.1);
+        }
+        
+        .score-display {
+            font-size: 42px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .score-status {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .score-status.pass {
+            color: #4aca8c;
+        }
+        
+        .score-status.fail {
+            color: #ff5252;
+        }
+        
+        .results-details {
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .results-details p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            color: #555;
+        }
+        
+        .result-message {
+            font-size: 18px !important;
+            margin-top: 15px !important;
+            padding: 10px 20px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        
+        .result-message.pass {
+            background-color: rgba(74, 202, 140, 0.1);
+            color: #2a8c59 !important;
+        }
+        
+        .result-message.warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #856404 !important;
+        }
+        
+        .result-message.fail {
+            background-color: rgba(255, 82, 82, 0.1);
+            color: #d32f2f !important;
+        }
+        
+        .results-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .results-actions button {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            header, .progress-container, .container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="/static/logo.png" alt="TrueHire Logo">
+            <span class="platform-name">Assessment Platform</span>
+        </div>
+        
+        <div class="timer-container" id="timerContainer" style="display: none;">
+            <div class="timer-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
+            <div class="timer" id="timerDisplay">05:00</div>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="step-text">Step 3 of 5</div>
+        <div class="progress-bar">
+            <div class="progress" style="width:40%"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left-column">
+            <div class="video-feed-container">
+                <div class="container-header">
+                    <div class="container-title">Your Video Feed</div>
+                    <div class="status-controls">
+                        <div class="status-indicator inactive" id="camera-status">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            <span>Camera</span>
+                            <span id="camera-status-text">Inactive</span>
+                        </div>
+                        <button class="permission-button" id="toggleCameraButton" data-permission="camera">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M23 7l-7 5 7 5V7z"></path>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                            </svg>
+                            Turn On
+                        </button>
+                        
+                        <div class="status-indicator inactive" id="mic-status">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path>
+                                <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                            <span>Microphone</span>
+                            <span id="mic-status-text">Inactive</span>
+                        </div>
+                        <button class="permission-button" id="toggleMicButton" data-permission="microphone">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                            Turn On
+                        </button>
+                        
+                        <div class="status-indicator inactive" id="screen-status">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                <path d="M16 16v2a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2"></path>
+                                <rect x="8" y="2" width="12" height="8" rx="2"></rect>
+                            </svg>
+                            <span>Screen Sharing</span>
+                            <span id="screen-status-text">Inactive</span>
+                        </div>
+                        <button class="permission-button" id="toggleScreenShareButton" data-permission="screen">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                            Turn On
+                        </button>
+                    </div>
+                </div>
+                <div class="video-content">
+                    <video id="videoElement" autoplay></video>
+                    <div class="video-placeholder" id="videoPlaceholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 7.5l-6-6-6 6v13.5h12V7.5z"></path>
+                            <path d="M18 7.5h-6v-6"></path>
+                            <circle cx="9" cy="10.5" r="1.5"></circle>
+                            <circle cx="15" cy="10.5" r="1.5"></circle>
+                            <path d="M9 15a3 3 0 0 0 6 0"></path>
+                        </svg>
+                        <p>Camera is off</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content" id="mainContent">
+            <!-- This will be dynamically updated with either permissions or assessment content -->
+            <div id="permissionsSection">
+                <h1 class="permissions-title">Device Permissions</h1>
+                <p class="permissions-description">Before proceeding to the assessment, please grant access to your camera, microphone, and screen sharing. These are required to monitor your assessment.</p>
+                
+                <div class="permissions-note">
+                    <p>Once all permissions are granted, you can proceed to the assessment.</p>
+                </div>
+                
+                <div class="button-container">
+                    <button id="startAssessmentButton" class="btn-primary" disabled>Start Assessment</button>
+                </div>
+            </div>
+            
+            <div id="assessmentSection" style="display: none;">
+                <h1 id="questionTitle" class="question-title">Technical Assessment</h1>
+                
+                <!-- Timer container -->
+                <div id="timerContainer" class="timer-container">
+                    <div class="timer-icon">⏱️</div>
+                    <div class="timer-display" id="timerDisplay">
+                        <span id="minutes">03</span>:<span id="seconds">00</span>
+                    </div>
+                    <div class="timer-label">Time Remaining</div>
+                </div>
+                
+                <!-- Progress bar -->
+                <div class="progress-bar">
+                    <div class="progress-indicator" id="progressIndicator" style="width: 20%"></div>
+                    <div class="progress-text" id="progressText">Question 1 of 5</div>
+                </div>
+                
+                <!-- Question container -->
+                <div id="questionContainer" class="question-container">
+                    <div class="loading-container">
+                        <div class="spinner"></div>
+                        <p>Loading questions...</p>
+                    </div>
+                </div>
+                
+                <!-- Options container -->
+                <div id="optionsContainer" class="options-container">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+                
+                <!-- Navigation buttons - Only show one set of navigation buttons -->
+                <div class="navigation-buttons">
+                    <button id="prevQuestionButton" class="btn-secondary" disabled>Previous Question</button>
+                    <button id="nextQuestionButton" class="btn-primary">Next Question</button>
+                </div>
+                
+                <!-- Remove any duplicate buttons -->
+                <script>
+                    // This will run when the HTML is loaded to remove duplicate buttons
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Hide any extra Next Question buttons not in the navigation-buttons container
+                        const allNextButtons = document.querySelectorAll('button');
+                        allNextButtons.forEach(button => {
+                            if (button.textContent.includes('Next Question') && 
+                                button.id !== 'nextQuestionButton' && 
+                                !button.closest('.navigation-buttons')) {
+                                button.style.display = 'none';
+                            }
+                        });
+                    });
+                </script>
+            </div>
+            
+            <!-- Results Section (Initially Hidden) -->
+            <div id="resultsSection" class="results-section" style="display: none;">
+                <h2>Assessment Results</h2>
+                
+                <div class="score-container">
+                    <div id="scoreCircle" class="score-circle">
+                        <div id="scoreDisplay" class="score-display">0%</div>
+                        <div id="scoreStatus" class="score-status">PENDING</div>
+                    </div>
+                </div>
+                
+                <div class="results-details">
+                    <p id="scoreDetails">You answered 0 out of 0 questions correctly.</p>
+                    <p id="resultMessage" class="result-message">Your assessment is being evaluated...</p>
+                </div>
+                
+                <div class="results-actions">
+                    <button id="proceedButton" class="btn-primary" onclick="window.location.href='/interview'">Proceed to Interview</button>
+                    <button id="returnButton" class="btn-secondary" onclick="window.location.href='/'">Return to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/assessment-combined.js"></script>
+</body>
+</html>

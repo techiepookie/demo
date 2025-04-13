@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueHire - Top Matches for You</title>
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #f9f9f7;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+            --green-tag-bg: #d4f5e9;
+            --orange-tag-bg: #ffecd1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .logo .tagline {
+            font-size: 12px;
+            display: block;
+            color: #777;
+            margin-top: 4px;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .step-indicator {
+            width: 80%;
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            position: relative;
+        }
+        
+        .step-progress {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        .step-text {
+            font-size: 14px;
+            color: #777;
+            margin-top: 8px;
+            text-align: center;
+        }
+        
+        .contact-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .notification {
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        main {
+            padding: 20px 0;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .recommended {
+            background-color: #fff9f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #ffe0c0;
+        }
+        
+        .recommended-header {
+            color: var(--primary-color);
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .recommended-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .recommended-text {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .job-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .company-info {
+            flex: 1;
+        }
+        
+        .company-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .company-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .job-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .match-indicator {
+            background-color: #333;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 30px;
+            background-color: var(--orange-tag-bg);
+        }
+        
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .salary {
+            font-size: 15px;
+            color: #333;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .apply-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .apply-btn:hover {
+            background-color: #e55c5c;
+        }
+        
+        .save-btn {
+            background-color: transparent;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        .match-reasons {
+            margin-top: 20px;
+        }
+        
+        .match-reasons-title {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .reason-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .reason-tag {
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 30px;
+            background-color: var(--green-tag-bg);
+            color: #097957;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            margin: 40px 0 20px;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        
+        .footer-logo span {
+            color: var(--primary-color);
+        }
+        
+        .footer-tagline {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .footer-copyright {
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        /* Notification styles */
+        .notification-popup {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .applied-text {
+            display: none;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                Tr<span>ü</span>eHire
+                <div class="tagline">— REAL WORK-SKILL MATCH —</div>
+            </div>
+            
+            <div class="steps">
+                <div>
+                    <div class="step-indicator">
+                        <div class="step-progress"></div>
+                    </div>
+                    <div class="step-text">Step 5 of 5</div>
+                </div>
+            </div>
+            
+            <button class="contact-btn">
+                Contact Us
+                <div class="notification">0</div>
+            </button>
+        </header>
+        
+        <main>
+            <h1>Top Matches for You</h1>
+            <p class="subtitle">Here are your best-fit roles based on your AI Interview. Companies prioritize your demonstrated<br>abilities, not just keywords.</p>
+            
+            <div class="recommended">
+                <div class="recommended-header">RECOMMENDED</div>
+                <div class="recommended-title">Apply Immediately</div>
+                <div class="recommended-text">These roles are perfect matches for your skills and experience based on your AI interview results.</div>
+            </div>
+            
+            <div class="job-card">
+                <div class="job-header">
+                    <div class="company-info">
+                        <div class="company-name">TechForward</div>
+                        <div class="company-description">Leading tech innovation company</div>
+                        <div class="job-title">Senior Frontend Developer</div>
+                        <div class="tags">
+                            <div class="tag">Flexible Hours</div>
+                            <div class="tag">Remote</div>
+                            <div class="tag">Growth-Focused</div>
+                        </div>
+                    </div>
+                    <div class="match-indicator">Match</div>
+                </div>
+                
+                <div class="job-footer">
+                    <div class="salary">₹9,00,000 - ₹12,00,000</div>
+                    <div class="actions">
+                        <span class="applied-text">Applied</span>
+                        <button class="apply-btn">Apply Now</button>
+                        <button class="save-btn">☐</button>
+                    </div>
+                </div>
+                
+                <div class="match-reasons">
+                    <div class="match-reasons-title">Why you're a great match:</div>
+                    <div class="reason-tags">
+                        <div class="reason-tag">Strong communication</div>
+                        <div class="reason-tag">React expertise</div>
+                        <div class="reason-tag">Team leadership</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="job-card">
+                <div class="job-header">
+                    <div class="company-info">
+                        <div class="company-name">DataDriven Inc.</div>
+                        <div class="company-description">Data analytics and visualization</div>
+                        <div class="job-title">UI/UX Developer</div>
+                        <div class="tags">
+                            <div class="tag">Collaborative</div>
+                            <div class="tag">Flat Structure</div>
+                            <div class="tag">Innovation</div>
+                        </div>
+                    </div>
+                    <div class="match-indicator">Match</div>
+                </div>
+                
+                <div class="job-footer">
+                    <div class="salary">₹8,25,000 - ₹10,00,000</div>
+                    <div class="actions">
+                        <span class="applied-text">Applied</span>
+                        <button class="apply-btn">Apply Now</button>
+                        <button class="save-btn">☐</button>
+                    </div>
+                </div>
+                
+                <div class="match-reasons">
+                    <div class="match-reasons-title">Why you're a great match:</div>
+                    <div class="reason-tags">
+                        <div class="reason-tag">Design skills</div>
+                        <div class="reason-tag">User-focused</div>
+                        <div class="reason-tag">Problem solver</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="job-card">
+                <div class="job-header">
+                    <div class="company-info">
+                        <div class="company-name">CloudNative Systems</div>
+                        <div class="company-description">Cloud infrastructure solutions</div>
+                        <div class="job-title">Full Stack Engineer</div>
+                        <div class="tags">
+                            <div class="tag">Remote First</div>
+                            <div class="tag">Continuous Learning</div>
+                            <div class="tag">Work-Life Balance</div>
+                        </div>
+                    </div>
+                    <div class="match-indicator">Match</div>
+                </div>
+                
+                <div class="job-footer">
+                    <div class="salary">₹9,40,000 - ₹12,00,000</div>
+                    <div class="actions">
+                        <span class="applied-text">Applied</span>
+                        <button class="apply-btn">Apply Now</button>
+                        <button class="save-btn">☐</button>
+                    </div>
+                </div>
+                
+                <div class="match-reasons">
+                    <div class="match-reasons-title">Why you're a great match:</div>
+                    <div class="reason-tags">
+                        <div class="reason-tag">Full stack experience</div>
+                        <div class="reason-tag">Cloud expertise</div>
+                        <div class="reason-tag">Culture aligned</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">More Great Opportunities</h2>
+            
+            <div class="job-card">
+                <div class="job-header">
+                    <div class="company-info">
+                        <div class="company-name">InnovateTech</div>
+                        <div class="company-description">Software solutions provider</div>
+                        <div class="job-title">Frontend Developer</div>
+                        <div class="tags">
+                            <div class="tag">Flexible Hours</div>
+                            <div class="tag">Team Events</div>
+                            <div class="tag">Mentorship</div>
+                        </div>
+                    </div>
+                    <div class="match-indicator">Match</div>
+                </div>
+                
+                <div class="job-footer">
+                    <div class="salary">₹6,75,000 - ₹8,60,000</div>
+                    <div class="actions">
+                        <span class="applied-text">Applied</span>
+                        <button class="apply-btn">Apply Now</button>
+                        <button class="save-btn">☐</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="job-card">
+                <div class="job-header">
+                    <div class="company-info">
+                        <div class="company-name">DigitalSphere</div>
+                        <div class="company-description">Digital transformation agency</div>
+                        <div class="job-title">React Developer</div>
+                        <div class="tags">
+                            <div class="tag">Remote Optional</div>
+                            <div class="tag">Agile</div>
+                            <div class="tag">Start-up Culture</div>
+                        </div>
+                    </div>
+                    <div class="match-indicator">Match</div>
+                </div>
+                
+                <div class="job-footer">
+                    <div class="salary">₹7,10,000 - ₹9,00,000</div>
+                    <div class="actions">
+                        <span class="applied-text">Applied</span>
+                        <button class="apply-btn">Apply Now</button>
+                        <button class="save-btn">☐</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="job-card">
+                <div class="job-header">
+                    <div class="company-info">
+                        <div class="company-name">WebSolutions Co.</div>
+                        <div class="company-description">Web development consulting</div>
+                        <div class="job-title">UI Developer</div>
+                        <div class="tags">
+                            <div class="tag">Creative Environment</div>
+                            <div class="tag">Professional Growth</div>
+                            <div class="tag">Benefits</div>
+                        </div>
+                    </div>
+                    <div class="match-indicator">Match</div>
+                </div>
+                
+                <div class="job-footer">
+                    <div class="salary">₹6,40,000 - ₹8,25,000</div>
+                    <div class="actions">
+                        <span class="applied-text">Applied</span>
+                        <button class="apply-btn">Apply Now</button>
+                        <button class="save-btn">☐</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="job-card">
+                <div class="job-header">
+                    <div class="company-info">
+                        <div class="company-name">AppWorks Inc.</div>
+                        <div class="company-description">Mobile and web application development</div>
+                        <div class="job-title">Frontend Engineer</div>
+                        <div class="tags">
+                            <div class="tag">Work-Life Balance</div>
+                            <div class="tag">Diverse Team</div>
+                            <div class="tag">Learning Budget</div>
+                        </div>
+                    </div>
+                    <div class="match-indicator">Match</div>
+                </div>
+                
+                <div class="job-footer">
+                    <div class="salary">₹6,75,000 - ₹9,00,000</div>
+                    <div class="actions">
+                        <span class="applied-text">Applied</span>
+                        <button class="apply-btn">Apply Now</button>
+                        <button class="save-btn">☐</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        Tr<span>ü</span>eHire
+                        <div class="footer-tagline">— REAL WORK-SKILL MATCH —</div>
+                    </div>
+                    <div class="footer-text">Find your perfect role through AI-powered matching</div>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link">in</a>
+                <a href="#" class="social-link">𝕏</a>
+                <a href="#" class="social-link">f</a>
+            </div>
+            
+            <div class="footer-copyright">© 2025 TrueHire. All rights reserved.</div>
+        </footer>
+    </div>
+    
+    <div class="notification-popup" id="notificationPopup">
+        Applied for the position! Company will soon coordinate with you.
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const applyButtons = document.querySelectorAll('.apply-btn');
+            const notificationPopup = document.getElementById('notificationPopup');
+            
+            applyButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const jobCard = this.closest('.job-card');
+                    const appliedText = jobCard.querySelector('.applied-text');
+                    
+                    // Show notification popup
+                    notificationPopup.style.display = 'block';
+                    
+                    // Change button text and show "Applied" text
+                    this.textContent = 'Applied';
+                    this.style.backgroundColor = '#4CAF50';
+                    appliedText.style.display = 'inline';
+                    
+                    // Disable button
+                    this.disabled = true;
+                    
+                    // Hide notification after 3 seconds
+                    setTimeout(() => {
+                        notificationPopup.style.display = 'none';
+                    }, 3000);
+                });
+            });
+            
+            // Save button functionality
+            const saveButtons = document.querySelectorAll('.save-btn');
+            saveButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.textContent === '☐') {
+                        this.textContent = '☑';
+                    } else {
+                        this.textContent = '☐';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

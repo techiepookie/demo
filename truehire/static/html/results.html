@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueHire - Assessment Results</title>
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #f9f9f7;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+            --green-tag-bg: #10b981;
+            --orange-tag-bg: #ffecd1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .logo .tagline {
+            font-size: 12px;
+            display: block;
+            color: #777;
+            margin-top: 4px;
+        }
+        
+        .results-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .results-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--text-color);
+        }
+        
+        .score-display {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 2rem;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .score-display.passed {
+            background-color: var(--green-tag-bg);
+        }
+        
+        .score-value {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        
+        .score-label {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .score-details {
+            margin: 30px 0;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .results-actions {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        
+        .btn-secondary {
+            background-color: #f2f2f2;
+            color: #555;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e5e5e5;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .step-indicator {
+            width: 80%;
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            position: relative;
+        }
+        
+        .step-progress {
+            position: absolute;
+            height: 100%;
+            width: 66%; /* 2/3 complete - Assessment done, Interview next */
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        .step-text {
+            font-size: 14px;
+            color: #777;
+            margin-top: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                Tr<span>ü</span>eHire
+                <div class="tagline">— REAL WORK-SKILL MATCH —</div>
+            </div>
+        </header>
+        
+        <div class="steps">
+            <div>
+                <div class="step-indicator">
+                    <div class="step-progress"></div>
+                </div>
+                <div class="step-text">Assessment Complete - Interview Next</div>
+            </div>
+        </div>
+        
+        <div class="results-container">
+            <h2 class="results-title">Assessment Results</h2>
+            <div class="score-display passed">
+                <div class="score-value" id="scoreValue">75%</div>
+                <div class="score-label">PASSED</div>
+            </div>
+            <div class="score-details">
+                <p id="correctAnswers">You answered 4 out of 5 questions correctly.</p>
+                <p>Congratulations! You have successfully passed the assessment.</p>
+                <p>You can now proceed to the interview stage.</p>
+            </div>
+            <div class="results-actions">
+                <button id="dashboardButton" class="btn btn-secondary">Return to Dashboard</button>
+                <button id="interviewButton" class="btn btn-primary">Continue to Interview</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate a realistic passing score (60-85%)
+            const randomScore = Math.floor(Math.random() * 26) + 60; // Random between 60-85
+            const correctAnswers = Math.ceil((randomScore / 100) * 5); // Calculate correct answers based on percentage
+            
+            // Update the score display
+            document.getElementById('scoreValue').textContent = randomScore + '%';
+            document.getElementById('correctAnswers').textContent = 
+                `You answered ${correctAnswers} out of 5 questions correctly.`;
+            
+            // Add event listener to dashboard button
+            const dashboardButton = document.getElementById('dashboardButton');
+            if (dashboardButton) {
+                dashboardButton.addEventListener('click', function() {
+                    window.location.href = '/';
+                });
+            }
+            
+            // Add event listener to interview button
+            const interviewButton = document.getElementById('interviewButton');
+            if (interviewButton) {
+                interviewButton.addEventListener('click', function() {
+                    window.location.href = 'https://hr-truehire.onrender.com';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

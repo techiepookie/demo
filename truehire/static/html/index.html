@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueHire - Revolutionizing Hiring</title>
+    <link rel="stylesheet" href="/static/index.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Development Phase Bar Styles */
+        .dev-phase-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .moving-text {
+            white-space: nowrap;
+            display: inline-block;
+            animation: moveText 15s linear infinite;
+        }
+        
+        @keyframes moveText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Adjust navbar position to accommodate the dev bar */
+        .navbar {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dev-phase-bar">
+        <div class="moving-text">
+            🚧 PROJECT IN DEVELOPMENT PHASE — Only Software Tech and Hardware Tech Currently Acceptable 🚧
+        </div>
+    </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1> <img src="/static/logo.png" , width="175" height="175"></h1>
+                <p>REAL WORK.REAL MATCH.</p>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#benefits">About Us</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#features">Recuriter</a></li>
+                <li><a href="#" class="btn-login">Sign In</a></li>
+                <li><a href="https://truhire-authentication.netlify.app" class="btn-signup">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Hiring Reinvented.</h1>
+                <h2>No resumes, No bias. Just real opportunity.</h2>
+                <p>AI that listens, learns, and finds the perfect job-fit, matching you to the perfect role with skill-first precision.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" id="exploreBtn">Get Started</button>
+                </div>
+            </div>
+            <div class="hero-info">
+                <h2>Why Choose Us?</h2>
+                <div class="hero-cards">
+                    <div class="hero-card">
+                        <h3>The Problem</h3>
+                        <ul>
+                            <li>Resumes don't show real skills</li>
+                            <li>Filters cause bias</li>
+                            <li>Job posts lack clarity</li>
+                        </ul>
+                    </div>
+                    <div class="hero-card">
+                        <h3>Our Solution</h3>
+                        <ul>
+                            <li>Blind, bias-free matching</li>
+                            <li>Skill-based challenges</li>
+                            <li>Transparent process</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <h2 class="section-title">Key Benefits</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Hire in <1 Day </h3>
+                    <p>Speed up your hiring process dramatically</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Cut Costs by 95%</h3>
+                    <p>Reduce your recruitment expenses significantly</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Unbiased Evaluation</h3>
+                    <p>Focus on skills, not background or demographics</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-fingerprint"></i>
+                    </div>
+                    <h3>Deepfake Proof</h3>
+                    <p>Advanced security prevents identity fraud</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>1. Sign Up</h3>
+                        <p>Create your free account in minutes</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>2. Create Your Profile</h3>
+                        <p>Add your skills and preferences</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>3. AI Interview</h3>
+                        <p>Complete skill-based challenges</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>4. Connect with Employers</h3>
+                        <p>Get matched with perfect opportunities</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Features and Benefits</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Language Independence</h3>
+                    <p>Our AI evaluates skills regardless of language barriers, opening opportunities for global talent.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>Speed</h3>
+                    <p>Reduce time-to-hire from weeks to just hours with our streamlined process.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Bias Reduction</h3>
+                    <p>Our blind matching process eliminates unconscious bias from the hiring process.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Personality Insights</h3>
+                    <p>Gain deeper understanding of candidates beyond just technical abilities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Cultural Fit</h3>
+                    <p>Ensure candidates align with your company values and work environment.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Speech Driven</h3>
+                    <p>Natural conversation based assessment process.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis Section -->
+    <section class="analysis" id="analysis">
+        <div class="container">
+            <h2 class="section-title">Comprehensive Candidate Analysis</h2>
+            <p class="section-subtitle">Our AI evaluates candidates across multiple dimensions to ensure the perfect match for your team.</p>
+            
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <h3>Professional Competencies</h3>
+                    <ul>
+                        <li>Leadership</li>
+                        <li>Problem-Solving</li>
+                        <li>Communication Skills</li>
+                        <li>Technical Knowledge</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h3>Work Style & Ethics</h3>
+                    <ul>
+                        <li>Accountability</li>
+                        <li>Initiative</li>
+                        <li>Time Management</li>
+                        <li>Adaptability</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h3>Personality Compatibilities</h3>
+                    <ul>
+                        <li>Team Dynamics</li>
+                        <li>Conflict Resolution</li>
+                        <li>Collaboration Style</li>
+                        <li>Emotional Intelligence</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h3>Career & Growth</h3>
+                    <ul>
+                        <li>Learning Agility</li>
+                        <li>Goal Orientation</li>
+                        <li>Career Aspirations</li>
+                        <li>Development Needs</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h3>Stress Management</h3>
+                    <ul>
+                        <li>Pressure Handling</li>
+                        <li>Work-Life Balance</li>
+                        <li>Resilience</li>
+                        <li>Coping Mechanisms</li>
+                    </ul>
+                </div>
+                <div class="analysis-card">
+                    <h3>Cultural Fit</h3>
+                    <ul>
+                        <li>Value Alignment</li>
+                        <li>Workplace Preferences</li>
+                        <li>Social Integration</li>
+                        <li>Organizational Fit</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Hiring Process?</h2>
+            <p>Experience the future of recruitment with our innovative AI-powered platform</p>
+            <button class="btn btn-primary btn-large" id="startChallengeBtn">Get In Touch</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <h2><img src="/static/logo.png" , width="175" height="175"></h2>
+                    <p>REAL WORK.REAL MATCH.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TrueHire. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueHire - Assessment Platform</title>
+    <link rel="stylesheet" href="/static/permissions.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="/static/logo.png" alt="TrueHire Logo">
+                <path d="M20.5 3L24 10H17L20.5 3Z" fill="#FF6B6B"/>
+                <path d="M8 12H33V15H8V12Z" fill="#333"/>
+                <path d="M12 18H16V33H12V18Z" fill="#333"/>
+                <path d="M19 18H23V33H19V18Z" fill="#333"/>
+                <path d="M26 18H30V33H26V18Z" fill="#333"/>
+                <path d="M42 12H46V30H56V33H42V12Z" fill="#333"/>
+                <path d="M60 12H64V18H70V12H74V33H70V22H64V33H60V12Z" fill="#333"/>
+                <path d="M78 12H90V15H82V21H88V24H82V30H90V33H78V12Z" fill="#333"/>
+                <path d="M94 12H104V15H98V33H94V12Z" fill="#333"/>
+                <path d="M107 12H111V30H118V33H107V12Z" fill="#333"/>
+                <path d="M8 36H28V35H8V36Z" fill="#333"/>
+                <path d="M33 36H53V35H33V36Z" fill="#333"/>
+                <path d="M58 36H78V35H58V36Z" fill="#333"/>
+                <path d="M83 36H103V35H83V36Z" fill="#333"/>
+            </svg>
+            <span class="platform-name">Assessment Platform</span>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="step-text">Step 2 of 5</div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left-column">
+            <div class="video-feed-container">
+                <div class="container-header">
+                    <div class="container-title">Your Video Feed</div>
+                    <div class="status-controls">
+                        <div class="status-indicator inactive" id="camera-status">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            <span>Camera</span>
+                            <span id="camera-status-text">Inactive</span>
+                        </div>
+                        <button class="button" id="toggleCamera">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M23 7l-7 5 7 5V7z"></path>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                            </svg>
+                            Turn On
+                        </button>
+                    </div>
+                </div>
+                <div class="video-content">
+                    <video id="videoElement" autoplay></video>
+                    <div class="video-placeholder" id="videoPlaceholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <p>Camera is turned off</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mic-container">
+                <div class="container-header">
+                    <div class="container-title">Mic Input</div>
+                    <div class="status-controls">
+                        <div class="status-indicator inactive" id="mic-status">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            <span>Microphone</span>
+                            <span id="mic-status-text">Inactive</span>
+                        </div>
+                        <button class="button" id="toggleMic">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path>
+                                <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                            Turn On
+                        </button>
+                    </div>
+                </div>
+                <div class="container-content" id="micStatus">
+                    Microphone is inactive
+                </div>
+            </div>
+
+            <div class="screen-share-container">
+                <div class="container-header">
+                    <div class="container-title">Screen Sharing</div>
+                    <div class="status-controls">
+                        <div class="status-indicator inactive" id="screen-status">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            <span>Screen</span>
+                            <span id="screen-status-text">Inactive</span>
+                        </div>
+                        <button class="button" id="toggleScreenShare">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                            Turn On
+                        </button>
+                    </div>
+                </div>
+                <div class="container-content" id="screenShareStatus">
+                    Screen sharing is inactive
+                </div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="tips-container">
+                <div class="tips-title">Interview Tips</div>
+                
+                <div class="tip">
+                    <div class="tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                        </svg>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Stay in a quiet space</h3>
+                        <p>Ensure minimal background noise for clear communication.</p>
+                    </div>
+                </div>
+                
+                <div class="tip">
+                    <div class="tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                            <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                            <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                        </svg>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Speak clearly and confidently</h3>
+                        <p>Maintain a steady pace and project your voice appropriately.</p>
+                    </div>
+                </div>
+                
+                <div class="tip">
+                    <div class="tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Explain your thinking</h3>
+                        <p>Share your thought process while solving problems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="next-button-container">
+        <button id="nextButton" disabled>
+            Next
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"></path>
+                <path d="M12 5l7 7-7 7"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script src="/static/permissions.js"></script>
+</body>
+</html>

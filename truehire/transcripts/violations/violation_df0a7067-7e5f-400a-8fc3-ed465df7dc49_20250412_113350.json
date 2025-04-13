@@ -1,0 +1,19 @@
+{
+  "session_id": "df0a7067-7e5f-400a-8fc3-ed465df7dc49",
+  "timestamp": "2025-04-12T11:33:50.216214",
+  "reason": "Proctoring violations exceeded",
+  "proctoring_log": [
+    {
+      "timestamp": 1744437829201,
+      "message": "Fullscreen mode exited"
+    },
+    {
+      "timestamp": 1744437829214,
+      "message": "Fullscreen mode exited"
+    },
+    {
+      "timestamp": 1744437830213,
+      "message": "Fullscreen mode exited"
+    }
+  ]
+}
